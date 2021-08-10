@@ -2,6 +2,8 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import useForm from 'hooks/useForm'
 import LinkToFilter from './LinkToFilter'
+import ROUTES from 'constants/routesPath'
+import { SUBMIT } from 'constants/buttonType'
 
 function SearchForm() {
   const location = useLocation()
@@ -23,12 +25,12 @@ function SearchForm() {
             className={styles.input}
           />
         </label>
-        <button type="submit" className={styles.submit}>
+        <button type={SUBMIT} className={styles.submit}>
           검색
         </button>
       </fieldset>
 
-      {location.pathname === '/result' && <LinkToFilter />}
+      {location.pathname === ROUTES.RESULT && <LinkToFilter />}
     </form>
   )
 }
