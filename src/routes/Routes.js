@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import { animated, useTransition } from 'react-spring'
+import { PageNotFound } from 'components'
 import { Filters, Main, Result } from 'pages'
 
 function Routes() {
@@ -18,6 +19,7 @@ function Routes() {
             <Route exact path="/" component={Main} />
             <Route path="/result" component={Result} />
             <Route path="/filters" component={Filters} />
+            <Route component={PageNotFound} />
           </Switch>
         </animated.div>
       ))}
