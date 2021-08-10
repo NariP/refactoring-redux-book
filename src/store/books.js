@@ -27,7 +27,7 @@ const booksSlice = createSlice({
       state.status = Status.Loading
     },
     getItemsSuccess(state, action) {
-      const { items, totalItems, startIndex } = action.payload
+      const { items = [], totalItems, startIndex } = action.payload
       const nextItems = startIndex ? state.items.concat(items) : items
 
       state.items = nextItems

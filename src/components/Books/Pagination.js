@@ -1,26 +1,22 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectBooks, fetchBooks, Status } from 'store/books'
+import { selectBooks, fetchBooks } from 'store/books'
 import { useLocation } from 'react-router-dom'
 
 function Pagination() {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { status, startIndex } = useSelector(selectBooks)
-  const isLoading = status === Status.Loading
+  const { startIndex, totalItems } = useSelector(selectBooks)
 
   return (
     <button
       className={styles.button}
-      disabled={startIndex === 0 || isLoading}
+      disabled={startIndex === totalItems}
       onClick={() => {
-        if (isLoading) {
-          return
-        }
         dispatch(fetchBooks(location.search, startIndex))
       }}
     >
-      {isLoading ? '로딩중...' : '더보기'}
+      {startIndex === totalItems ? '더 이상 결과 없음' : '더보기'}
     </button>
   )
 }

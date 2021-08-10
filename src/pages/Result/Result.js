@@ -2,7 +2,14 @@ import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchBooks, selectBooks, Status } from 'store/books'
-import { Loading, Stack, SearchForm, Books, Pagination } from 'components'
+import {
+  Loading,
+  Stack,
+  SearchForm,
+  Books,
+  Pagination,
+  ResultNotFound
+} from 'components'
 
 function Result() {
   const dispatch = useDispatch()
@@ -11,11 +18,7 @@ function Result() {
   const isLoading = status === Status.Loading
 
   useEffect(() => {
-    if (!search) {
-      return
-    }
-
-    dispatch(fetchBooks(search))
+    search && dispatch(fetchBooks(search))
   }, [dispatch, search])
 
   return (
@@ -24,7 +27,7 @@ function Result() {
         <SearchForm />
         <Books items={items} />
         {isLoading && <Loading />}
-        <Pagination />
+        {!isLoading && (items.length > 0 ? <Pagination /> : <ResultNotFound />)}
       </Stack>
     </div>
   )
