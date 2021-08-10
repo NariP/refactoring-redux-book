@@ -6,39 +6,15 @@ function Book({ defaultClassName, volumeInfo }) {
     <div className={cx([defaultClassName, styles.wrapper])}>
       <img
         src={volumeInfo?.imageLinks?.thumbnail}
-        className={cx(
-          styles.media,
-          css({
-            width: 128,
-            height: 128
-          })
-        )}
+        className={styles.media}
         alt=""
       />
-      <div
-        className={cx(
-          styles.body,
-          css({
-            maxWidth: 'calc(100% - 128px)'
-          })
-        )}
-      >
+      <div className={styles.body}>
         <div className={styles.content}>
           <div className={styles.title} title={volumeInfo?.title}>
             {volumeInfo?.title}
           </div>
-          <p
-            className={cx(
-              styles.description,
-              css({
-                display: '-webkit-box',
-                overflow: 'hidden',
-                WebkitLineClamp: '1',
-                WebkitBoxOrient: 'vertical'
-              })
-            )}
-            title={volumeInfo?.description}
-          >
+          <p className={styles.description} title={volumeInfo?.description}>
             {volumeInfo?.description}
           </p>
         </div>
@@ -55,11 +31,23 @@ function Book({ defaultClassName, volumeInfo }) {
 
 const styles = {
   wrapper: 'flex',
-  media: 'object-cover',
-  body: 'w-full p-2 border border-l-0 border-gray-400 rounded rounded-l-none',
+  media: `object-cover ${css({
+    width: 128,
+    height: 128
+  })}`,
+  body: `w-full p-2 border border-l-0 border-gray-400 rounded rounded-l-none ${css(
+    {
+      maxWidth: 'calc(100% - 128px)'
+    }
+  )}`,
   content: 'mb-4',
   title: 'mb-2 text-gray-900 font-bold text-lg truncate',
-  description: 'text-gray-700 text-base',
+  description: `text-gray-700 text-base ${css({
+    display: '-webkit-box',
+    overflow: 'hidden',
+    WebkitLineClamp: 1,
+    WebkitBoxOrient: 'vertical'
+  })}`,
   meta: 'flex items-center text-sm',
   authors: 'mr-2 text-gray-900',
   publishedDate: 'text-gray-600'
