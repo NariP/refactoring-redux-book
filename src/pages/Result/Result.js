@@ -1,23 +1,24 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBooks, selectBooks } from '../../store/books'
-import SearchForm from '../../components/SearchForm'
-import Books from '../../components/Books'
-import Pagination from '../../components/Books/Pagination'
-import Stack from '../../components/Stack'
+import { fetchBooks, selectBooks, Status } from 'store/books'
+import {
+  Loading,
+  Stack,
+  SearchForm,
+  Books,
+  Pagination,
+  ResultNotFound
+} from 'components'
 
 function Result() {
   const dispatch = useDispatch()
   const { search } = useLocation()
-  const { items } = useSelector(selectBooks)
+  const { status, items } = useSelector(selectBooks)
+  const isLoading = status === Status.Loading
 
   useEffect(() => {
-    if (!search) {
-      return
-    }
-
-    dispatch(fetchBooks(search))
+    search && dispatch(fetchBooks(search))
   }, [dispatch, search])
 
   return (
@@ -25,7 +26,8 @@ function Result() {
       <Stack gaps={[0, 10, 20, 20]}>
         <SearchForm />
         <Books items={items} />
-        <Pagination />
+        {isLoading && <Loading />}
+        {!isLoading && (items.length > 0 ? <Pagination /> : <ResultNotFound />)}
       </Stack>
     </div>
   )

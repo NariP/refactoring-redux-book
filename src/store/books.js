@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getBooks } from '../api'
+import { getBooks } from '../utils/api/api'
 
 export const Status = {
   Idle: 'idle',
@@ -27,7 +27,7 @@ const booksSlice = createSlice({
       state.status = Status.Loading
     },
     getItemsSuccess(state, action) {
-      const { items, totalItems, startIndex } = action.payload
+      const { items = [], totalItems, startIndex } = action.payload
       const nextItems = startIndex ? state.items.concat(items) : items
 
       state.items = nextItems
@@ -41,23 +41,22 @@ const booksSlice = createSlice({
   }
 })
 
-export const {
-  getItemsStart,
-  getItemsSuccess,
-  getItemsFailure
-} = booksSlice.actions
+export const { getItemsStart, getItemsSuccess, getItemsFailure } =
+  booksSlice.actions
 
 export default booksSlice.reducer
 
-export const selectBooks = state => state.books
+export const selectBooks = (state) => state.books
 
-export const fetchBooks = (search, startIndex = 0) => async dispatch => {
-  try {
-    dispatch(getItemsStart(startIndex))
-    const response = await getBooks(search, startIndex)
-    const data = await response.json()
-    dispatch(getItemsSuccess({ ...data, startIndex }))
-  } catch (error) {
-    dispatch(getItemsFailure(error))
+export const fetchBooks =
+  (search, startIndex = 0) =>
+  async (dispatch) => {
+    try {
+      dispatch(getItemsStart(startIndex))
+      const response = await getBooks(search, startIndex)
+      const data = await response.json()
+      dispatch(getItemsSuccess({ ...data, startIndex }))
+    } catch (error) {
+      dispatch(getItemsFailure(error))
+    }
   }
-}

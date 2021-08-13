@@ -1,8 +1,9 @@
 import React from 'react'
+import { VERTICAL } from 'constants/direction'
 import { css } from 'emotion'
 
-function Stack({ children, gaps, direction = 'vertical' }) {
-  const dir = direction === 'vertical' ? 'top' : 'left'
+function Stack({ children, gaps, direction = VERTICAL }) {
+  const dir = direction === VERTICAL ? 'top' : 'left'
   const style = css`
     ${gaps.map(
       (gap, index) => `& > *:nth-child(${index + 1}) { 
